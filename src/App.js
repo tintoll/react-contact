@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from './components/Header';
 import Container from './components/Container';
 import ViewSelector from './components/ViewSelector';
+import FloatingButton from './components/FloatingButton';
 
 class App extends Component {
   state = {
@@ -22,6 +23,8 @@ class App extends Component {
         {/* view 값에 따라 다른 컨테이너를 보여준다. */}
         <Container visible={view === 'favorite'}>즐겨찾기</Container>
         <Container visible={view === 'list'}>리스트</Container>
+
+        <FloatingButton />
       </div>
     );
   }
