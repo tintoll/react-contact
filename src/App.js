@@ -8,6 +8,7 @@ import Dimmed from "./components/Dimmed";
 import shortid from 'shortid';
 import ContactList from './components/ContactList';
 import Input from './components/Input';
+import FavoriteList from './components/FavoriteList';
 
 import oc from 'open-color';
 function generateRandomColor() {
@@ -235,7 +236,9 @@ class App extends Component {
         <ViewSelector onSelect={handleSelectView} selected={view} />
         
         {/* view 값에 따라 다른 컨테이너를 보여준다. */}
-        <Container visible={view === 'favorite'}>즐겨찾기</Container>
+        <Container visible={view === 'favorite'}>
+          <FavoriteList contacts={contacts} />
+        </Container>
         <Container visible={view === 'list'}>
           <Input onChange={handleSearchChange}
                  value={search}
