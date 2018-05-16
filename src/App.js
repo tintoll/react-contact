@@ -3,6 +3,8 @@ import Header from './components/Header';
 import Container from './components/Container';
 import ViewSelector from './components/ViewSelector';
 import FloatingButton from './components/FloatingButton';
+import ContactModal from './components/ContactModal';
+import Dimmed from "./components/Dimmed";
 
 import oc from 'open-color';
 function generateRandomColor() {
@@ -85,9 +87,10 @@ class App extends Component {
   render() {
     const { 
       handleSelectView,
-      handleFloatingButtonClick 
+      handleFloatingButtonClick,
+      modalHandler 
     } = this;
-    const { view } = this.state;
+    const { view, modal } = this.state;
 
     return (
       <div>
@@ -98,6 +101,15 @@ class App extends Component {
         <Container visible={view === 'favorite'}>즐겨찾기</Container>
         <Container visible={view === 'list'}>리스트</Container>
 
+        {/* ...modal은 아래와같이 변환됨.
+          color={modal.color}  
+          mode={modal.mode}
+          name={modal.name}  
+          phone={modal.phone}
+          visible={modal.visible}
+        */}
+        <ContactModal {...modal} onHide={modalHandler.hide} />  
+        <Dimmed visible={modal.visible} />
         <FloatingButton onClick={handleFloatingButtonClick} />
       </div>
     );

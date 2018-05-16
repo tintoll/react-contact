@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   z-index : 10;
 
   /* 너비 기본은 400px */
-  width : ${ props => prop.width };
+  width : ${ props => props.width };
 
   /* 모바일일경우에는 양옆에 여백 1rem에 꽉 채우기 */
   ${media.mobile`
