@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
+import StarIcon from 'react-icons/lib/md/star';
+import EditIcon from 'react-icons/lib/md/edit';
 
 const Wrapper = styled.div`
   /* 레이아웃 */
@@ -71,7 +73,34 @@ const Phone = styled.div`
   margin-top : 0.25rem;
 `;
 
+const CircleButton = styled.div`
+  /* 레이아웃 */
+  height : 2rem;
+  width : 2rem;
+  display : flex;
+  align-items : center;
+  justify-content : center;
+  margin : 0.25rem;
 
+  background : white;
+  border : 1px solid ${oc.gray[4]};
+  color : ${oc.gray[4]};
+
+  border-radius : 1rem;
+  font-size : 1.15rem;
+
+  &:hover {
+    border: 1px solid ${oc.gray[7]};
+    color : ${oc.gray[9]};
+  }
+
+  /* 즐겨찾기 -노란색 */
+  ${props => props.favorite && `
+    &:active {
+      border : 1px solid ${oc.yellow[6]};
+      color : ${oc.yellow[6]}
+  `}
+`;
 
 
 class ContactItem extends Component {
@@ -89,7 +118,8 @@ class ContactItem extends Component {
 
   render() {
     const {
-      contact : {name, phone, favorite, id, color }
+      contact : {name, phone, favorite, id, color },
+      onOpenModify
     } = this.props;
     return (
       <Wrapper>
@@ -98,7 +128,14 @@ class ContactItem extends Component {
           <Name>{name}</Name>
           <Phone>{phone}</Phone>
         </Info>
-        <div className="actions">Hi</div>
+        <div className="actions">
+          <CircleButton favorite>
+            <StarIcon />
+          </CircleButton>
+          <CircleButton>
+            <EditIcon onClick={() => onOpenModify(id)}/>  
+          </CircleButton>
+        </div>
       </Wrapper>
     )
   }

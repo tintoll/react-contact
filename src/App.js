@@ -133,8 +133,51 @@ class App extends Component {
         this.modalHandler.hide();
 
       },
-      modify : null,
-      remove : null,
+      modify : () => {
+        const { modal : {name, phone, index}, contacts } = this.state;
+        const item = contacts[index];
+        this.setState({
+          contacts : [
+            ...contacts.slice(0,index), // 0~index전까지의 객체를 넣음.
+            {
+              ...item, // 기존의 아이템 값에 
+              name, // name과 phone를 덮어씌움.
+              phone
+            },
+            ...contacts.slice(index+1, contacts.length)
+          ]
+        });
+        this.modalHandler.hide();
+      },
+      remove : () => {
+        const {modal:{index} , contacts} = this.state;
+        this.setState({
+          contacts :[
+            ...contacts.slice(0, index),
+            ...contacts.slice(index + 1, contacts.length)
+          ]
+        });
+        this.modalHandler.hide();
+      },
+    }
+    
+  }
+
+  // 아이템 핸들러
+  itemHandler = {
+    toggleFavorite : null,
+    openModify : (id) => {
+        const { contacts } = this.state;
+        // id로 index조회
+        const index = contacts.findIndex(contact => contact.id === id);
+        const item = this.state.contacts[index];
+        this.modalHandler.show(
+          'modify',
+          {
+            ...item,
+            index
+          }
+        );
     }
   }
 
@@ -156,7 +199,8 @@ class App extends Component {
     const { 
       handleSelectView,
       handleFloatingButtonClick,
-      modalHandler 
+      modalHandler,
+      itemHandler 
     } = this;
     const { view, modal, contacts } = this.state;
 
@@ -168,7 +212,8 @@ class App extends Component {
         {/* view 값에 따라 다른 컨테이너를 보여준다. */}
         <Container visible={view === 'favorite'}>즐겨찾기</Container>
         <Container visible={view === 'list'}>
-          <ContactList contacts={contacts} />
+          <ContactList contacts={contacts}
+                       onOpenModify={itemHandler.openModify} />
         </Container>
 
         {/* ...modal은 아래와같이 변환됨.
@@ -180,7 +225,8 @@ class App extends Component {
         */}
         <ContactModal {...modal} onHide={modalHandler.hide} 
                   onChange={modalHandler.change}
-                  onAction={modalHandler.action[modal.mode]} />  
+                  onAction={modalHandler.action[modal.mode]}
+                  onRemove={modalHandler.action.remove} />  
         <Dimmed visible={modal.visible} />
         <FloatingButton onClick={handleFloatingButtonClick} />
       </div>

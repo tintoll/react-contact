@@ -11,9 +11,10 @@ class ContactList extends Component {
     onOpenModify : PropTypes.func // 수정 모달 띄우기
   }
   render(){
-    const { contacts } = this.props;
+    const { contacts, onOpenModify } = this.props;
     const contactList = contacts.map(
-      contact => <ContactItem key={contact.id} contact={contact} />
+      contact => <ContactItem key={contact.id} contact={contact} 
+                              onOpenModify={onOpenModify} />
     );
     return (
       <div>
