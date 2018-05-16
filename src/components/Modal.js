@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import onClickOutside  from 'react-onclickoutside';
 import PropTypes from 'prop-types';
-import {media} from '../lib/styled-utils';
+import {media, transitions} from '../lib/styled-utils';
+import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 
 
 // 모달 위치 및 사이즈 설정
@@ -24,6 +25,17 @@ const Wrapper = styled.div`
   ${media.mobile`
     width : clac(100% - 2rem);
   `}
+
+  /* 애니매이션 */
+  .modal-enter {
+    animation : ${transitions.slideDown} .5s ease-in-out;
+    animation-fill-mode : forwards;
+  }
+  .modal-leave {
+    animation : ${transitions.slideUp} .5s ease-in-out;
+    animation-fill-mode : forwards;
+  }
+
 `;
 Wrapper.propTypes = {
   width : PropTypes.string
@@ -76,10 +88,16 @@ class Modal extends Component {
     return (
       <div>
         <Wrapper width={width}>
+          <CSSTransitionGroup 
+            transitionName="modal"
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
           {
             /* visible이 참일때만 ModalBox 보여줌 */
             visible && (<ModalBox>{children}</ModalBox>)
           }
+          </CSSTransitionGroup>
         </Wrapper>
       </div>
     )
