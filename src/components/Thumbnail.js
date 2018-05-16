@@ -38,7 +38,7 @@ Thumbnail.propTypes = {
   color : PropTypes.string
 }
 
-Thumbnail.defaultTypes = {
+Thumbnail.defaultProps = {
   size : '4rem',
   color : '#000'
 }

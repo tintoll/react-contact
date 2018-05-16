@@ -6,6 +6,7 @@ import FloatingButton from './components/FloatingButton';
 import ContactModal from './components/ContactModal';
 import Dimmed from "./components/Dimmed";
 import shortid from 'shortid';
+import ContactList from './components/ContactList';
 
 import oc from 'open-color';
 function generateRandomColor() {
@@ -38,7 +39,43 @@ class App extends Component {
       visible : false,
       mode: null // create 혹은 modify
     },
-    contacts : []
+    contacts: [
+      {
+        "id": "SyKw5cyAl",
+        "name": "김민준",
+        "phone": "010-0000-0000",
+        "color": "#40c057",
+        "favorite": true
+      },
+      {
+        "id": "r1s_9c10l",
+        "name": "아벳",
+        "phone": "010-0000-0001",
+        "color": "#12b886",
+        "favorite": true
+      },
+      {
+        "id": "BJcFqc10l",
+        "name": "베티",
+        "phone": "010-0000-0002",
+        "color": "#fd7e14",
+        "favorite": false
+      },
+      {
+        "id": "BJUcqqk0l",
+        "name": "찰리",
+        "phone": "010-0000-0003",
+        "color": "#15aabf",
+        "favorite": false
+      },
+      {
+        "id": "rJHoq91Cl",
+        "name": "데이비드",
+        "phone": "010-0000-0004",
+        "color": "#e64980",
+        "favorite": false
+      }
+    ]
     
   }
   // view 선택 메소드 정의
@@ -121,7 +158,7 @@ class App extends Component {
       handleFloatingButtonClick,
       modalHandler 
     } = this;
-    const { view, modal } = this.state;
+    const { view, modal, contacts } = this.state;
 
     return (
       <div>
@@ -130,7 +167,9 @@ class App extends Component {
         
         {/* view 값에 따라 다른 컨테이너를 보여준다. */}
         <Container visible={view === 'favorite'}>즐겨찾기</Container>
-        <Container visible={view === 'list'}>리스트</Container>
+        <Container visible={view === 'list'}>
+          <ContactList contacts={contacts} />
+        </Container>
 
         {/* ...modal은 아래와같이 변환됨.
           color={modal.color}  
