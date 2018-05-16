@@ -5,6 +5,7 @@ import ContactItem from './ContactItem';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { transitions } from '../lib/styled-utils';
 
+
 const Wrapper = styled.div`
   margin-top : 1rem;
 
