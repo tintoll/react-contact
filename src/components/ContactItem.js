@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
@@ -95,7 +95,17 @@ const CircleButton = styled.div`
   }
 
   /* 즐겨찾기 -노란색 */
-  ${props => props.favorite && `
+  ${props => props.favorite && css`
+    /* active props를 전달받으면 노란색으로 */
+    ${props => props.active && css`
+      border : 1px solid ${oc.yellow[6]};
+      color : ${oc.yellow[6]}
+
+      &:hover {
+        color : ${oc.yellow[5]};
+        border : 1px solid ${oc.yellow[5]};
+      }
+    `}
     &:active {
       border : 1px solid ${oc.yellow[6]};
       color : ${oc.yellow[6]}
@@ -119,7 +129,8 @@ class ContactItem extends Component {
   render() {
     const {
       contact : {name, phone, favorite, id, color },
-      onOpenModify
+      onOpenModify,
+      onToggleFavorite
     } = this.props;
     return (
       <Wrapper>
@@ -129,7 +140,9 @@ class ContactItem extends Component {
           <Phone>{phone}</Phone>
         </Info>
         <div className="actions">
-          <CircleButton favorite>
+          <CircleButton favorite
+                        active={favorite}
+                        onClick={() => onToggleFavorite(id)}>
             <StarIcon />
           </CircleButton>
           <CircleButton>

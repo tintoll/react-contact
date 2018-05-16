@@ -15,7 +15,7 @@ class ContactList extends Component {
     onOpenModify : PropTypes.func // 수정 모달 띄우기
   }
   render(){
-    const { contacts, onOpenModify, search } = this.props;
+    const { contacts, onOpenModify, search, onToggleFavorite } = this.props;
     const contactList = contacts.filter( // 키워드 필터링
       c => c.name.indexOf(search) !== -1
     ).sort( // 가나다순으로 정렬
@@ -26,7 +26,8 @@ class ContactList extends Component {
       }
     ).map(
       contact => <ContactItem key={contact.id} contact={contact} 
-                              onOpenModify={onOpenModify} />
+                              onOpenModify={onOpenModify}
+                              onToggleFavorite={onToggleFavorite} / >
     );
     return (
       <Wrapper>
