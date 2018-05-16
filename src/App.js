@@ -5,6 +5,7 @@ import ViewSelector from './components/ViewSelector';
 import FloatingButton from './components/FloatingButton';
 import ContactModal from './components/ContactModal';
 import Dimmed from "./components/Dimmed";
+import shortid from 'shortid';
 
 import oc from 'open-color';
 function generateRandomColor() {
@@ -36,7 +37,8 @@ class App extends Component {
     modal : {
       visible : false,
       mode: null // create 혹은 modify
-    }
+    },
+    contacts : []
     
   }
   // view 선택 메소드 정의
@@ -62,9 +64,38 @@ class App extends Component {
       })
     },
     // 추후 구현해야할 메소드들 
-    change : null,
+    change : ({name, value}) => {
+      this.setState({
+        modal : {
+          ...this.state.modal,
+          [name]:value // 인자로 전달받은 name의 값을 value로 설정
+        }
+      });
+    },
     action : {
-      create : null,
+      create : () => {
+        // 고유 아이디 생성
+        const id = shortid.generate();
+        // 레퍼런스 생성
+        const { contacts, modal :{name, phone, color}} = this.state;
+
+        // 데이터 생성
+        const contact = {
+          id,
+          name,
+          phone,
+          color,
+          favorite : false
+        }
+
+        this.setState({
+          // 기존 배열에 있던 것들을 집어넣고, contact 를 뒤에 추가한 새 배열로 설정
+          contacts : [...contacts, contact]
+        })
+        // 모달 닫기
+        this.modalHandler.hide();
+
+      },
       modify : null,
       remove : null,
     }
@@ -108,7 +139,9 @@ class App extends Component {
           phone={modal.phone}
           visible={modal.visible}
         */}
-        <ContactModal {...modal} onHide={modalHandler.hide} />  
+        <ContactModal {...modal} onHide={modalHandler.hide} 
+                  onChange={modalHandler.change}
+                  onAction={modalHandler.action[modal.mode]} />  
         <Dimmed visible={modal.visible} />
         <FloatingButton onClick={handleFloatingButtonClick} />
       </div>
