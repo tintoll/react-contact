@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import PropTypes from 'prop-types';
 import PersonIcon from 'react-icons/lib/md/person';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 
 const Wrapper = styled.div`
   width : 50%;
@@ -42,7 +43,10 @@ const Phone = styled.div`
   margin-top : 0.25rem;
 `;
 
-const FavoriteItem = ({contact : { color, name, phone }}) => (
+const FavoriteItem = ({contact}) => {
+  // 일반 Map 인스턴스는 비구조화 할당이 되지 않으니, toJS() 를 한 다음에 비구조화 할당을 하였습니다
+  const { color, name, phone } = contact.toJS();
+  return (
     <Wrapper>
       <Box color={color}>
         <ThumbnailContainer>
@@ -54,10 +58,11 @@ const FavoriteItem = ({contact : { color, name, phone }}) => (
         </Info>
       </Box>
     </Wrapper>
-);
+  );
+}
 
 FavoriteItem.propTypes = {
-  contact : PropTypes.shape({
+  contact: ImmutablePropTypes.mapContains({
     id : PropTypes.string,
     name : PropTypes.string,
     phone: PropTypes.string,
